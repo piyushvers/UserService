@@ -1,12 +1,11 @@
 package com.usp.medicare.service;
 
-import org.mapstruct.factory.Mappers;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.usp.medicare.dto.UserDTO;
 import com.usp.medicare.entity.User;
-import com.usp.medicare.mapper.UserMapper;
 import com.usp.medicare.repository.UserRepository;
 import com.usp.medicare.util.MailUtil;
 import com.usp.medicare.util.OtpGenerator;
@@ -22,8 +21,7 @@ public class UserService {
 
 	private UserRepository repo;
 	
-	@Autowired
-	private UserMapper userMapper;
+
 	
 	UserService(UserRepository repo){
 		//this.userMapper = userMapper;
@@ -72,7 +70,8 @@ public class UserService {
 			//repo.
 		try {
 			//UserMapper userMapper = Mappers.getMapper(UserMapper.class);
-		User user = userMapper.userDTOToUser(userDTO);
+			User user =  new User();
+			BeanUtils.copyProperties(userDTO, user);
 		user = repo.save(user);
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
