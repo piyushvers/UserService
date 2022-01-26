@@ -1,5 +1,7 @@
 package com.usp.medicare.service;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,37 +21,14 @@ public class UserService {
 	@Autowired
 	OtpGenerator otpGenerator;
 
-	private UserRepository repo;
+	private UserRepository userRepository;
 	
 
 	
-	UserService(UserRepository repo){
+	UserService(UserRepository userRepository){
 		//this.userMapper = userMapper;
-		this.repo = repo;
+		this.userRepository = userRepository;
 	}
-
-	//@Autowired
-	//private Address address;
-	
-	/*
-	 * public User getUserByEmail(String email) { User user = new User();
-	 * user.setEmail(email); user.setUserName("Piyush"); user.setPassword("123");
-	 * user.setOneTimePassword("1234"); // user.setOneTimePassword(email);
-	 * user.setOtpRequestedTime(new Date()); return user; }
-	 * 
-	 * public void generateOneTimePassword(User user) throws
-	 * UnsupportedEncodingException, MessagingException { // String OTP =
-	 * otpGenerator.generateOTP(); String OTP = "1234"; // String encodedOTP =
-	 * passwordEncoder.encode(OTP); System.out.println("HI" + OTP);
-	 * user.setOneTimePassword(OTP); user.setOtpRequestedTime(new Date());
-	 * 
-	 * // customerRepo.save(customer);
-	 * 
-	 * //mailUtil.sendOTPEmail(user, OTP); }
-	 * 
-	 * public void clearOTP(User user) { user.setOneTimePassword(null);
-	 * user.setOtpRequestedTime(null); // customerRepo.save(customer); }
-	 */
 
 	/**
 	 * Method to register user
@@ -57,27 +36,38 @@ public class UserService {
 	 * @param user
 	 * @return
 	 */
-	public String registerUser(UserDTO userDTO) {
-		//User user = new User();
-		//user.setEmail(newUser.getEmail());
-		//user.setMobNumber(newUser.getMobNumber());
-		//user.setOneTimePassword(newUser.getOneTimePassword());
-		//user.setOtpRequestedTime(newUser.getOtpRequestedTime());
-		// user.setPassword(newUser.getPassword());
-		//user.setUserName(newUser.getUserName());
-		//User user = repo.getUserByMobile(newUser.getMobile());
-		//if(user!=null)
-			//repo.
+	public UserDTO fetchUser(UserDTO userDTO) {
+		UserDTO userDto = null;
+		
+		List<User> userList = userRepository.getUserByMobNumber(userDTO.getMobile());
+		if(userList != null && userList.size() >0) {
+			userDto =  new UserDTO();
+			User user = userList.get(0);
+			BeanUtils.copyProperties( user,userDTO);
+		}
+		 return userDto;
+	}
+
+
+	/**
+	 * Method to register user
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public UserDTO registerUser(UserDTO userDTO) {
+		
 		try {
 			//UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 			User user =  new User();
 			BeanUtils.copyProperties(userDTO, user);
-		user = repo.save(user);
+		    user = userRepository.save(user);
+		    userDTO.setUserId(user.getUserId());
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
 		
-		return "";
+		return userDTO;
 	}
 
 }
