@@ -18,23 +18,28 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	
-
-	@GetMapping("/get/{id}")
+	@GetMapping("/get/{userId}")
 	public UserDTO getUserByUserId(@PathVariable String userId) {
 		return new UserDTO();
 	}
 
-	@PostMapping(path="/fetchUser",consumes = "application/json")
+	@GetMapping("/get/mob/{userMobile}")
+	public UserDTO getUserByUserMobile(@PathVariable String userMobile) {
+		return userService.getUserByMobile(userMobile);
+	}
+
+	@PostMapping(path = "/get/fetchUser", consumes = "application/json")
 	public UserDTO fetchUser(@RequestBody UserDTO user) {
 		return userService.fetchUser(user);
 	}
+
 	/**
 	 * Method to create new user
+	 * 
 	 * @param user
 	 * @return
 	 */
-	@PostMapping(path="/createUser",consumes = "application/json")
+	@PostMapping(path = "/createUser", consumes = "application/json")
 	public UserDTO createUser(@RequestBody UserDTO user) {
 		return userService.registerUser(user);
 	}

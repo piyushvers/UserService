@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.usp.medicare.entity.User;
+import com.usp.medicare.entity.UserInfo;
 
 /**
  * Account Repository for CRUD operations
@@ -16,7 +17,9 @@ import com.usp.medicare.entity.User;
  */
 public interface UserRepository extends JpaRepository<User, BigInteger> {
 	
-	@Query("Select u from User u where u.mobile=mobile")
-	List<User> getUserByMobNumber(String mobile);
+	@Query("Select u from User u where u.userMobile=userMobile")
+	List<User> getUserByMobNumber(String userMobile);
+	
+	User findByUserMobile(String userMobile);
 
 }

@@ -20,61 +20,17 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="USER_ID", unique = true)
+	@Column(name="ID", unique = true)
 	private BigInteger userId;
 	
+	@Column(name="USER_MOBILE_NUMBER")
+	private String userMobile;
 	
+	@Column(name="IS_EXISTING_USER")
+	private String isExisting;
 	
-	@Column(name="USER_NAME")
-	private String userName;
-	
-	
-	@Column(name="FIRST_NAME")
-	private String firstName;
-	
-	@Column(name="Last_NAME")
-	private String lastName;
-	
-	@Column(name="DOB")
-	private String dob;
-	
-	@Column(name="BLOOD_GROUP")
-	private String bloodGroup;
-
-	@Column(name="EMAIL")
-	private String email;
-	
-	@Column(name="MOBILE")
-	private String mobile;
-	
-
-	@Column(name="ADDRESS")
-	private String address;
-	
-	@Column(name="CITY")
-	private String city;
-	
-	@Column(name="STATE")
-	private String state;
-	
-	@Column(name="ZIP_CODE")
-	private String zipCode;
-	
-	@Column(name="COUNTRY")
-	private String country;
-	
-
-	@Column(name="IS_USER_ACTIVE")
-	private String isUserActive;
-	
-	
-	@Column(name="LAST_LOGIN_DATE")
-	private Date lastLoginDate;
-	
-	
-	@Column(name="LAST_LOGOUT_DATE")
-	private Date lastLogoutDate;
-	
+	@Column(name="IS_ACTIVE")
+	private String isActive;
 	
 	@Column(name="CREATED_DATE")
 	private Date createDate;
@@ -87,5 +43,4 @@ public class User {
 	
 	@Column(name="MODIFIED_BY")
 	private String updatedBy;	
-	
 }
