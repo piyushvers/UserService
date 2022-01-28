@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +45,7 @@ public class UserService {
 		if (userList != null && !userList.isEmpty()) {
 			userDto = new UserDTO();
 			User user = userList.get(0);
-			BeanUtils.copyProperties(user, userDTO);
+			userDto = modelMapper.map(user, UserDTO.class);
 		}
 		return userDto;
 	}
