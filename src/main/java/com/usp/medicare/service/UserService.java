@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.usp.medicare.dto.UserDTO;
+import com.usp.medicare.dto.UserInfoDTO;
 import com.usp.medicare.entity.User;
+import com.usp.medicare.entity.UserInfo;
+import com.usp.medicare.repository.UserInfoRepository;
 import com.usp.medicare.repository.UserRepository;
 import com.usp.medicare.util.MailUtil;
 import com.usp.medicare.util.OtpGenerator;
@@ -26,6 +29,9 @@ public class UserService {
 	private ModelMapper modelMapper;
 
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserInfoRepository userInfoRepository;
 
 	UserService(UserRepository userRepository) {
 		// this.userMapper = userMapper;
@@ -74,7 +80,7 @@ public class UserService {
 	public UserDTO registerUser(UserDTO userDTO) {
 
 		try {
-			User user = new User();
+			User user = null;
 			user = modelMapper.map(userDTO, User.class);
 			user.setIsActive("Y");
 			user.setIsExisting("Y");
@@ -90,6 +96,23 @@ public class UserService {
 		}
 
 		return userDTO;
+	}
+
+	public UserInfo saveUserInformation(UserInfoDTO userInfoDTO) {
+		UserInfo userInfo = null;
+		try {
+			userInfo = modelMapper.map(userInfoDTO, UserInfo.class);
+			userInfo.setCreateDate(new Date());
+			userInfo.setUpdateDate(new Date());
+			userInfo.setCreateBy(null);
+			userInfo.setUpdatedBy(null);
+			userInfo.setIsUserActive("Y");
+			userInfo = userInfoRepository.save(userInfo);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return userInfo;
 	}
 
 }

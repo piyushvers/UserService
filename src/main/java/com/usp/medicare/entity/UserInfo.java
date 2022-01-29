@@ -20,31 +20,34 @@ public class UserInfo {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="ID", unique = true)
+	@Column(name="USER_INFO_ID", unique = true)
+	private BigInteger id;
+	
+	@Column(name="USER_ID_FK", unique = true)
 	private BigInteger userId;
 	
-	@Column(name="USER_NAME")
-	private String userName;
-	
-	@Column(name="FIRST_NAME")
+	@Column(name="USER_FIRST_NAME")
 	private String firstName;
 	
-	@Column(name="Last_NAME")
+	@Column(name="USER_LAST_NAME")
 	private String lastName;
 	
-	@Column(name="DOB")
+	@Column(name="USER_SEX")
+	private String sex;
+	
+	@Column(name="USER_DOB")
 	private String dob;
 	
-	@Column(name="BLOOD_GROUP")
+	@Column(name="USER_BLOOD_GROUP")
 	private String bloodGroup;
 
-	@Column(name="EMAIL")
+	@Column(name="USER_EMAIL_ID")
 	private String email;
 	
-	@Column(name="MOBILE")
+	@Column(name="USER_MOBILE")
 	private String mobile;
 	
-	@Column(name="ADDRESS")
+	@Column(name="USER_ADDRESS")
 	private String address;
 	
 	@Column(name="CITY")
@@ -53,20 +56,14 @@ public class UserInfo {
 	@Column(name="STATE")
 	private String state;
 	
-	@Column(name="ZIP_CODE")
+	@Column(name="ZIPCODE")
 	private String zipCode;
 	
 	@Column(name="COUNTRY")
 	private String country;
 
-	@Column(name="IS_USER_ACTIVE")
+	@Column(name="IS_ACTIVE")
 	private String isUserActive;
-	
-	@Column(name="LAST_LOGIN_DATE")
-	private Date lastLoginDate;
-	
-	@Column(name="LAST_LOGOUT_DATE")
-	private Date lastLogoutDate;
 	
 	@Column(name="CREATED_DATE")
 	private Date createDate;
