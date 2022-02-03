@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.usp.medicare.constants.DMSHeaderInd;
+import com.usp.medicare.dto.DmsDTO;
 import com.usp.medicare.dto.UserDTO;
 import com.usp.medicare.dto.UserInfoDTO;
 import com.usp.medicare.entity.UserInfo;
+import com.usp.medicare.service.DMSService;
 import com.usp.medicare.service.UserService;
 
 @RestController
@@ -22,7 +25,12 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
 
+	@Autowired
+	private DMSService dmsService;
+	
+	
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -60,11 +68,19 @@ public class UserController {
 	 * @param userInfoDto
 	 * @return
 	 */
-	@PostMapping(path = "/saveUserInfo", consumes = "application/json")
+	@PostMapping(path = "/store/saveUserInfo", consumes = "application/json")
 	public UserInfoDTO saveUserInfo(@RequestBody UserInfoDTO userInfoDto) {
+		
 		try {
 			UserInfo userInfo = userService.saveUserInformation(userInfoDto);
+			
+			DmsDTO dmsDTO = userInfoDto.getDmsDTO();
+			dmsDTO.setHeaderTableId(userInfo.getId());
+			dmsDTO.setHeaderTableConstant(DMSHeaderInd.PROFILE_PHOTO.toString());
+			dmsDTO = dmsService.uploadDocument(dmsDTO);
+			
 			userInfoDto = modelMapper.map(userInfo, UserInfoDTO.class);
+			userInfoDto.setDmsDTO(dmsDTO);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.usp.medicare.entity.User;
-import com.usp.medicare.entity.UserInfo;
+import com.usp.medicare.entity.DMS;
 
 /**
  * Account Repository for CRUD operations
