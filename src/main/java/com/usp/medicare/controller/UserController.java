@@ -25,12 +25,10 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
 
 	@Autowired
 	private DMSService dmsService;
-	
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -70,15 +68,15 @@ public class UserController {
 	 */
 	@PostMapping(path = "/store/saveUserInfo", consumes = "application/json")
 	public UserInfoDTO saveUserInfo(@RequestBody UserInfoDTO userInfoDto) {
-		
+
 		try {
 			UserInfo userInfo = userService.saveUserInformation(userInfoDto);
-			
+
 			DmsDTO dmsDTO = userInfoDto.getDmsDTO();
 			dmsDTO.setHeaderTableId(userInfo.getId());
 			dmsDTO.setHeaderTableConstant(DMSHeaderInd.PROFILE_PHOTO.toString());
 			dmsDTO = dmsService.uploadDocument(dmsDTO);
-			
+
 			userInfoDto = modelMapper.map(userInfo, UserInfoDTO.class);
 			userInfoDto.setDmsDTO(dmsDTO);
 		} catch (Exception e) {

@@ -1,12 +1,18 @@
 package com.usp.medicare.service;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.usp.medicare.dto.SMSDto;
 import com.usp.medicare.dto.UserDTO;
 import com.usp.medicare.dto.UserInfoDTO;
 import com.usp.medicare.entity.User;
@@ -32,6 +38,13 @@ public class UserService {
 
 	@Autowired
 	private UserInfoRepository userInfoRepository;
+
+	private static final String COMMUNICATION_URL = "http://localhost:8093/communication/";
+
+	@Autowired
+	private RestTemplate restClient;
+
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	UserService(UserRepository userRepository) {
 		// this.userMapper = userMapper;
@@ -91,6 +104,10 @@ public class UserService {
 			// BeanUtils.copyProperties(userDTO, user);
 			user = userRepository.save(user);
 			userDTO.setUserId(user.getUserId());
+			String baseUrl = COMMUNICATION_URL + "/sms/updateUser" + user.getUserId();
+
+			URI uri = new URI(baseUrl);
+			SMSDto otpValidateResponse = restClient.getForObject(uri, SMSDto.class);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
