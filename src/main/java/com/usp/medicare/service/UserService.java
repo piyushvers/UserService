@@ -36,9 +36,6 @@ public class UserService {
 
 	private UserRepository userRepository;
 
-	@Autowired
-	private UserInfoRepository userInfoRepository;
-
 	private static final String COMMUNICATION_URL = "http://localhost:8093/communication/";
 
 	@Autowired
@@ -115,21 +112,5 @@ public class UserService {
 		return userDTO;
 	}
 
-	public UserInfo saveUserInformation(UserInfoDTO userInfoDTO) {
-		UserInfo userInfo = null;
-		try {
-			userInfo = modelMapper.map(userInfoDTO, UserInfo.class);
-			userInfo.setCreateDate(new Date());
-			userInfo.setUpdateDate(new Date());
-			userInfo.setCreateBy(null);
-			userInfo.setUpdatedBy(null);
-			userInfo.setIsUserActive("Y");
-			userInfo = userInfoRepository.save(userInfo);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		return userInfo;
-	}
-
+	
 }
