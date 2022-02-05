@@ -17,6 +17,7 @@ import com.usp.medicare.dto.UserDTO;
 import com.usp.medicare.dto.UserInfoDTO;
 import com.usp.medicare.entity.UserInfo;
 import com.usp.medicare.service.DMSService;
+import com.usp.medicare.service.UserInfoService;
 import com.usp.medicare.service.UserService;
 
 @RestController
@@ -25,6 +26,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserInfoService userInfoService;
 
 	@Autowired
 	private DMSService dmsService;
@@ -44,6 +48,11 @@ public class UserController {
 		return userService.getUserByMobile(userMobile);
 	}
 
+	/**
+	 * Method to get the user 
+	 * @param user
+	 * @return
+	 */
 	@PostMapping(path = "/get/fetchUser", consumes = "application/json")
 	public UserDTO fetchUser(@RequestBody UserDTO user) {
 		return userService.fetchUser(user);
@@ -70,7 +79,7 @@ public class UserController {
 	public UserInfoDTO saveUserInfo(@RequestBody UserInfoDTO userInfoDto) {
 
 		try {
-			UserInfo userInfo = userService.saveUserInformation(userInfoDto);
+			UserInfo userInfo = userInfoService.saveUserInformation(userInfoDto);
 
 			DmsDTO dmsDTO = userInfoDto.getDmsDTO();
 			dmsDTO.setHeaderTableId(userInfo.getId());
@@ -83,6 +92,11 @@ public class UserController {
 			LOGGER.error(e.getMessage());
 		}
 		return userInfoDto;
+	}
+	
+	@GetMapping("/get/fetchUser/{userId}")
+	public UserInfoDTO fetchUserInfo(@PathVariable String userId) {
+		return userInfoService.getUserInfo(userId);
 	}
 
 }

@@ -23,7 +23,7 @@ public interface DMSService {
 	 * @param user
 	 * @return
 	 */
-	public DmsDTO getDocument(DmsDTO dmsDTO);
+	public DmsDTO getDocumentByUserId(String userId);
 
 
 }
