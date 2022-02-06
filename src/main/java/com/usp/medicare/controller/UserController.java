@@ -84,6 +84,7 @@ public class UserController {
 			DmsDTO dmsDTO = userInfoDto.getDmsDTO();
 			dmsDTO.setHeaderTableId(userInfo.getId());
 			dmsDTO.setHeaderTableConstant(DMSHeaderInd.PROFILE_PHOTO.toString());
+			dmsDTO.setUserId(userInfo.getId());
 			dmsDTO = dmsService.uploadDocument(dmsDTO);
 
 			userInfoDto = modelMapper.map(userInfo, UserInfoDTO.class);
