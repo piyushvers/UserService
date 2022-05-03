@@ -40,13 +40,13 @@ public class UserController {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-	@GetMapping("/get/{userId}")
+	@GetMapping("/getUserByUserId/{userId}")
 	public UserDTO getUserByUserId(@PathVariable String userId) {
 		LOGGER.info("userid ====> " + userId);
 		return userService.fetchUserById(userId);
 	}
 
-	@GetMapping("/get/mob/{userMobile}")
+	@GetMapping("/get/UserByMobileNumber/{userMobile}")
 	public UserDTO getUserByUserMobile(@PathVariable String userMobile) {
 		return userService.getUserByMobile(userMobile);
 	}
@@ -56,18 +56,17 @@ public class UserController {
 	 * @param user
 	 * @return
 	 */
-	@PostMapping(path = "/get/fetchUser", consumes = "application/json")
-	public UserDTO fetchUser(@RequestBody UserDTO user) {
-		return userService.fetchUser(user);
-	}
-
+	/*
+	 * @PostMapping(path = "/get/f", consumes = "application/json") public UserDTO
+	 * fetchUser(@RequestBody UserDTO user) { return userService.fetchUser(user); }
+	 */
 	/**
 	 * Method to create new user
 	 * 
 	 * @param user
 	 * @return
 	 */
-	@PostMapping(path = "/createUser", consumes = "application/json")
+	@PostMapping(path = "/RegisterNewUser", consumes = "application/json")
 	public UserDTO createUser(@RequestBody UserDTO user) {
 		return userService.registerUser(user);
 	}
@@ -78,7 +77,7 @@ public class UserController {
 	 * @param userInfoDto
 	 * @return
 	 */
-	@PostMapping(path = "/store/saveUserInfo", consumes = "application/json")
+	@PostMapping(path = "/saveUserInfo", consumes = "application/json")
 	public UserInfoDTO saveUserInfo(@RequestBody UserInfoDTO userInfoDto) {
 
 		try {
@@ -102,7 +101,7 @@ public class UserController {
 		return userInfoDto;
 	}
 	
-	@GetMapping("/get/fetchUser/{userId}")
+	@GetMapping("/get/fetchUserInfo/{userId}")
 	public UserInfoDTO fetchUserInfo(@PathVariable String userId) {
 		return userInfoService.getUserInfo(userId);
 	}
