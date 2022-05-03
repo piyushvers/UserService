@@ -16,4 +16,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, BigInteger> 
 	@Query("Select u from UserInfo u where u.userId=userId")
 	List<UserInfo> getUserInfoByUserId(String userId);
 	
+	List<UserInfo> findByUserId(BigInteger userId);
+	
 }

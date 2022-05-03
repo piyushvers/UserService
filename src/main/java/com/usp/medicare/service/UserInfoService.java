@@ -1,5 +1,6 @@
 package com.usp.medicare.service;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +63,9 @@ public class UserInfoService {
 	public UserInfoDTO getUserInfo(String userId) {
 		UserInfoDTO userInfoDTO = null;
 		try {
-			List<UserInfo> userInfoList = userInfoRepository.getUserInfoByUserId(userId);
+			LOGGER.info("userId ====> " + userId);
+			List<UserInfo> userInfoList = userInfoRepository.findByUserId(new BigInteger(userId));
+			LOGGER.info("userInfoList ====> " + userInfoList);
 			if (userInfoList != null && !userInfoList.isEmpty()) {
 				userInfoDTO = new UserInfoDTO();
 				UserInfo userInfo = userInfoList.get(0);

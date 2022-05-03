@@ -40,7 +40,8 @@ public class UserController {
 
 	@GetMapping("/get/{userId}")
 	public UserDTO getUserByUserId(@PathVariable String userId) {
-		return new UserDTO();
+		LOGGER.info("userid ====> " + userId);
+		return userService.fetchUserById(userId);
 	}
 
 	@GetMapping("/get/mob/{userMobile}")

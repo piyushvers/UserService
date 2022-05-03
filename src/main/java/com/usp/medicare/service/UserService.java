@@ -1,8 +1,10 @@
 package com.usp.medicare.service;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -110,6 +112,21 @@ public class UserService {
 		}
 
 		return userDTO;
+	}
+
+	public UserDTO fetchUserById(String userId) {
+		// TODO Auto-generated method stub
+		if(userId != null && !userId.isEmpty()) {
+			Optional<User> opuser =  userRepository.findById( new BigInteger(userId));
+			User user = null;
+			if(opuser.isPresent()) {
+				user = opuser.get();
+				UserDTO userDto = modelMapper.map(user, UserDTO.class);
+				return userDto;
+			}
+			
+		}
+           return null;
 	}
 
 	

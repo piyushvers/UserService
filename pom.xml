@@ -67,11 +67,8 @@
 		</dependency>
 
 		<!-- Mapper Dependency -->
-		<!-- <dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>1.4.2.Final</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.mapstruct</groupId> <artifactId>mapstruct</artifactId> 
+			<version>1.4.2.Final</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.modelmapper</groupId>
@@ -175,7 +172,15 @@
 							<version>1.4.2.Final</version>
 						</path>
 					</annotationProcessorPaths>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.22</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
+
 			</plugin>
 		</plugins>
 	</build>
