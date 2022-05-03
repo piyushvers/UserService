@@ -90,8 +90,10 @@ public class UserService {
 	 * @return
 	 */
 	public UserDTO registerUser(UserDTO userDTO) {
-
+		UserDTO existingUser = getUserByMobile(userDTO.getMobile());
+		
 		try {
+			if(existingUser == null) {
 			User user = null;
 			user = modelMapper.map(userDTO, User.class);
 			user.setIsActive("Y");
@@ -107,6 +109,10 @@ public class UserService {
 
 			URI uri = new URI(baseUrl);
 			SMSDto otpValidateResponse = restClient.getForObject(uri, SMSDto.class);
+			}else {
+				return existingUser;
+			}
+				
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
