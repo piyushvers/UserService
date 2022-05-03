@@ -78,4 +78,7 @@ public class UserInfo {
 	@Column(name="MODIFIED_BY")
 	private String updatedBy;	
 	
+	@Column(name="appointment_id")
+	private BigInteger appointmentId;	
+	
 }

@@ -41,13 +41,32 @@ public class UserInfoService {
 	public UserInfo saveUserInformation(UserInfoDTO userInfoDTO) {
 		UserInfo userInfo = null;
 		try {
-			userInfo = modelMapper.map(userInfoDTO, UserInfo.class);
-			userInfo.setCreateDate(new Date());
-			userInfo.setUpdateDate(new Date());
-			userInfo.setCreateBy(null);
-			userInfo.setUpdatedBy(null);
-			userInfo.setIsUserActive("Y");
-			userInfo = userInfoRepository.save(userInfo);
+			
+			if(userInfoDTO != null ) {
+				
+				if(userInfoDTO.getUserId() != null) {
+					UserInfo savedUser = userInfoRepository.findByUserId(userInfoDTO.getUserId());
+					if(savedUser!=null) {
+					userInfo = modelMapper.map(userInfoDTO, UserInfo.class);
+					userInfo.setId(savedUser.getId());
+					userInfo.setCreateDate(savedUser.getCreateDate());
+					userInfo.setIsUserActive("Y");
+					userInfo.setUpdateDate(new Date());
+					userInfo = userInfoRepository.save(userInfo);
+					return userInfo;
+					}else {
+						userInfo = modelMapper.map(userInfoDTO, UserInfo.class);
+						userInfo.setCreateDate(new Date());
+						userInfo.setUpdateDate(new Date());
+						userInfo.setCreateBy(null);
+						userInfo.setUpdatedBy(null);
+						userInfo.setIsUserActive("Y");
+						userInfo = userInfoRepository.save(userInfo);
+						return userInfo;
+					}
+				}
+			}
+			
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -64,11 +83,10 @@ public class UserInfoService {
 		UserInfoDTO userInfoDTO = null;
 		try {
 			LOGGER.info("userId ====> " + userId);
-			List<UserInfo> userInfoList = userInfoRepository.findByUserId(new BigInteger(userId));
-			LOGGER.info("userInfoList ====> " + userInfoList);
-			if (userInfoList != null && !userInfoList.isEmpty()) {
+			UserInfo userInfo = userInfoRepository.findByUserId(new BigInteger(userId));
+			LOGGER.info("userInfoList ====> " + userInfo);
+			if (userInfo != null) {
 				userInfoDTO = new UserInfoDTO();
-				UserInfo userInfo = userInfoList.get(0);
 				userInfoDTO = modelMapper.map(userInfo, UserInfoDTO.class);
 				// Get user document
 				List<DMS> dmsList = dmsRepository.getDocumentObjectByUserId(""+userInfoDTO.getUserId());

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import com.usp.medicare.service.UserService;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
 	@Autowired
@@ -80,13 +82,17 @@ public class UserController {
 	public UserInfoDTO saveUserInfo(@RequestBody UserInfoDTO userInfoDto) {
 
 		try {
+			
 			UserInfo userInfo = userInfoService.saveUserInformation(userInfoDto);
 
 			DmsDTO dmsDTO = userInfoDto.getDmsDTO();
+			
+			if(dmsDTO !=null) {
 			dmsDTO.setHeaderTableId(userInfo.getId());
 			dmsDTO.setHeaderTableConstant(DMSHeaderInd.PROFILE_PHOTO.toString());
 			dmsDTO.setUserId(userInfo.getId());
 			dmsDTO = dmsService.uploadDocument(dmsDTO);
+			}
 
 			userInfoDto = modelMapper.map(userInfo, UserInfoDTO.class);
 			userInfoDto.setDmsDTO(dmsDTO);
