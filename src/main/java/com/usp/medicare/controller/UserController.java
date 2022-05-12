@@ -105,5 +105,6 @@ public class UserController {
 	public UserInfoDTO fetchUserInfo(@PathVariable String userId) {
 		return userInfoService.getUserInfo(userId);
 	}
+	
 
 }
